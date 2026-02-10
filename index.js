@@ -84,6 +84,23 @@ app.post("/bfhl", async (req, res) => {
     return res.status(500).json({ is_success: false });
   }
 });
+// ROOT ROUTE (IMPORTANT FIX)
+app.get("/", (req, res) => {
+  res.status(200).json({
+    is_success: true,
+    official_email: "mehak1340.be23@chitkara.edu.in"
+  });
+});
+
+// HEALTH ROUTE
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    is_success: true,
+    official_email: "mehak1340.be23@chitkara.edu.in"
+  });
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server running on port", PORT));
+
