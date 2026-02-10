@@ -69,14 +69,34 @@ app.post("/bfhl", async (req, res) => {
       });
     }
 
-    if (body.AI) {
-      // Temporary hardcoded AI response
-      return res.status(200).json({
-        is_success: true,
-        official_email: EMAIL,
-        data: "Mumbai"
-      });
+   if (body.AI) {
+  const axios = require("axios");
+
+  const response = await axios.post(
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
+    {
+      contents: [
+        {
+          parts: [{ text: body.AI }]
+        }
+      ]
+    },
+    {
+      params: {
+        key: process.env.GEMINI_API_KEY
+      }
     }
+  );
+
+  const answer =
+    response.data.candidates[0].content.parts[0].text.trim();
+
+  return res.status(200).json({
+    is_success: true,
+    official_email: EMAIL,
+    data: answer.split(" ")[0] // single word
+  });
+}
 
     return res.status(400).json({ is_success: false });
 
